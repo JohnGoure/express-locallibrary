@@ -26,7 +26,7 @@ exports.bookinstance_delete_get = function(req, res) {
 };
 
 // Handle BookInstace delete form on POST.
-exports.bookinstance_post = function(req, res) {
+exports.bookinstance_delete_post = function(req, res) {
     res.send('Not Implemented: BookInstance delete POST');
 };
 

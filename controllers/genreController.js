@@ -31,11 +31,11 @@ exports.genre_delete_post = function(req, res) {
 };
 
 // Display Genre update form on GET
-exports.genere_update_get = function(req, res) {
+exports.genre_update_get = function(req, res) {
     res.send('Not Implemented: Genre update GET');
 };
 
 // Handle Genre update form on POST
-exports.genere_update_post = function(req, res) {
+exports.genre_update_post = function(req, res) {
     res.send('Not Implemented: Genre update POST');
 };
