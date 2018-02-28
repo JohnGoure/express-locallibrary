@@ -24,4 +24,10 @@ BookInstanceSchema
     return moment(this.due_back).format('MMM Do, YYYY');
 });
 
+BookInstanceSchema
+.virtual('long_month_due_back')
+.get(function() {
+    return moment(this.due_back).format('MMMM Do, YYYY');
+});
+
 module.exports = mongoose.model('BookInstance', BookInstanceSchema);
