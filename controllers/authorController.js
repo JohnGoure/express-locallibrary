@@ -107,7 +107,7 @@ exports.author_delete_get = function(req, res, next) {
 
 // Handle Author delete on POST
 exports.author_delete_post = function(req, res, next) {
-    async.parrallel({
+    async.parallel({
         author: function(callback) {
             Author.findById(req.body.authorid)
             .exec(callback);
