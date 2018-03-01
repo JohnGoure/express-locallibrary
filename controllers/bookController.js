@@ -216,4 +216,51 @@ exports.book_update_post = [
     // Sanitize fields.
     sanitizeBody('title').trim().escape(),
     sanitizeBody('author').trim().escape(),
+    sanitizeBody('summary').trim().escape(),
+    sanitizeBody('isbn').trim().escape(),
+    sanitizeBody('genre.*').trim().escape(),
+
+    // Process requet after validation and sanitization
+    function (req, res, next) {
+
+        const errors = validationResult(req);
+
+        var book = new Book({
+            title: req.body.title,
+            author: req.body.author,
+            summary: req.body.summary,
+            isbn: req.body.isbn,
+            genre: (typeof req.body.genre==='undefined') ? [] : req.body.genre,
+            _id:req.params.id //This is required, of a new ID will be assigned!
+        });
+
+        if (!errors.isEmpty()) {
+
+            async.parallel({
+                authors: (callback) => {
+                    Authors.find(callback);
+                },
+                genres: (callback) => {
+                    Genres.find(callback);
+                },
+            }, function (err, results, next) {
+                if (err) {return next(err);}
+
+                for (let i = 0; i < results.genres.length; i++) {
+                    if (book.genre.indexOf(results.genres[i]._id) > -1) {
+                        results.genres[i].checked='true';
+                    }
+                }
+                res.render('book_form', {title: 'Update Book', authors: results.authors, genres: results.genres, book: book, errors: errors.array()});
+            });
+            return;
+        }
+        else {
+            Book.findByIdAndUpdate(req.params.id, book, {}, function(err,thebook) {
+                if (err) {return next(err);}
+                res.redirect(thebook.url);
+            });
+        }
+
+    }
 ];
