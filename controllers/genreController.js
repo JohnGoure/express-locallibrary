@@ -30,7 +30,7 @@ exports.genre_detail = function(req, res) {
         },
     },
 
-    function(err, results) {
+    function(err, results, next) {
         if(err) {return next(err); }
         if (results.genre==null) {// No results.
             var err = new Error('Genre not found');
